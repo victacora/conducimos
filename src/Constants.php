@@ -41,5 +41,5 @@ class Constants
     /**
      * Application wide default locale.
      */
-    public const DEFAULT_LOCALE = 'en';
+    public const DEFAULT_LOCALE = 'es';
 }

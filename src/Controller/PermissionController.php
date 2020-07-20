@@ -99,6 +99,7 @@ final class PermissionController extends AbstractController
             new PermissionSection('Timesheet', '_timesheet'),
             new PermissionSection('Timesheet (other)', '_other_timesheet'),
             new PermissionSection('Timesheet (own)', '_own_timesheet'),
+            new PermissionSection('Current Years', '_current_year'),
         ];
 
         $event = new PermissionSectionsEvent();

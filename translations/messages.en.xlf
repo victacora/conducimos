@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<xliff version="1.2"
+    xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="en" datatype="plaintext" original="messages.en.xlf">
         <body>
             <!--
@@ -180,11 +181,15 @@
                 <source>menu.tags</source>
                 <target>Tags</target>
             </trans-unit>
+            <trans-unit id="menu.current_years">
+                <source>menu.current_years</source>
+                <target>Current years</target>
+            </trans-unit>
             <trans-unit id="menu.doctor">
                 <source>menu.doctor</source>
                 <target>Doctor</target>
             </trans-unit>
-            
+
             <!--
               Error templates
             -->
@@ -1147,6 +1152,14 @@
             <trans-unit id="label.globalsOnly">
                 <source>label.globalsOnly</source>
                 <target>Only global</target>
+            </trans-unit>
+            <trans-unit id="label.year">
+                <source>label.year</source>
+                <target>Year</target>
+            </trans-unit>
+            <trans-unit id="label.enabled">
+                <source>label.enabled</source>
+                <target>Enabled</target>
             </trans-unit>
         </body>
     </file>

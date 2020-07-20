@@ -1,0 +1,42 @@
+{% macro currentYears(view) %}
+    {% import "macros/widgets.html.twig" as widgets %}
+
+    {% set actions = {'search': {'class': 'search-toggle visible-xs-inline'}} %}
+
+    {% if is_granted('manage_current_year') %}
+        {% set actions = actions|merge({'create': {'url': path('current_years_create'), 'class': 'modal-ajax-form'}}) %}
+    {% endif %}
+
+    {% set event = trigger('actions.currentYear', {'actions': actions, 'view': view}) %}
+    {{ widgets.page_actions(event.payload.actions) }}
+{% endmacro %}
+
+{% macro currentYear(currentYear, view) %}
+    {% import "macros/widgets.html.twig" as widgets %}
+
+    {% set actions = {} %}
+    {% if currentYear.id is not empty %}
+        {% if is_granted('manage_current_year') %}
+            {% set class = '' %}
+            {% if view != 'edit' %}
+                {% set class = 'modal-ajax-form' %}
+            {% endif %}
+            {% set actions = actions|merge({'edit': {'url': path('current_years_edit', {'id': currentYear.id}), 'class': class}}) %}
+        {% endif %}
+
+        {% if is_granted('delete_current_year') %}
+            {% set actions = actions|merge({'trash': {'url': path('delete_current_year', {'id' : currentYear.id}), 'class': 'api-link', 'attr': {'data-event': 'kimai.conCurrentYearDelete kimai.conCurrentYearUpdate', 'data-method': 'DELETE', 'data-question': 'confirm.delete', 'data-msg-error': 'action.delete.error', 'data-msg-success': 'action.delete.success'}}}) %}
+        {% endif %}
+    {% endif %}
+
+    {% if view != 'index' %}
+        {% set actions = actions|merge({'back': path('current-years')}) %}
+    {% endif %}
+    
+    {% set event = trigger('actions.current_year', {'actions': actions, 'view': view, 'currentYear': currentYear}) %}
+    {% if view == 'index' %}
+        {{ widgets.table_actions(event.payload.actions) }}
+    {% else %}
+        {{ widgets.entity_actions(event.payload.actions) }}
+    {% endif %}
+{% endmacro %}

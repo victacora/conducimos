@@ -111,9 +111,9 @@ final class MenuSubscriber implements EventSubscriberInterface
             $menu->addChild($activities);
         }
 
-        if ($auth->isGranted('view_tag')) {
+        if ($auth->isGranted('view_current_year')) {
             $menu->addChild(
-                new MenuItemModel('tags', 'menu.tags', 'tags', [], 'fas fa-tags')
+                new MenuItemModel('view_current_year', 'menu.current_years', 'current-years', [], 'fa fa-hourglass-start')
             );
         }
     }
@@ -132,12 +132,6 @@ final class MenuSubscriber implements EventSubscriberInterface
             $teams = new MenuItemModel('user_team', 'menu.admin_team', 'admin_team', [], $this->getIcon('team'));
             $teams->setChildRoutes(['admin_team_create', 'admin_team_edit']);
             $menu->addChild($teams);
-        }
-
-        if ($auth->isGranted('plugins')) {
-            $menu->addChild(
-                new MenuItemModel('plugins', 'menu.plugin', 'plugins', [], $this->getIcon('plugin'))
-            );
         }
 
         if ($auth->isGranted('system_configuration')) {

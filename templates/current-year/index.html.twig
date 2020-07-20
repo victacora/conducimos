@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "current-year/actions.html.twig" as actions %}
+{% import "macros/datatables.html.twig" as tables %}
+{% import "macros/toolbar.html.twig" as toolbar %}
+
+{% block page_title %}{{ 'years.title'|trans({}, 'years') }}{% endblock %}
+{% block page_search %}{{ toolbar.dropDownSearch(toolbarForm) }}{% endblock %}
+{% block page_actions %}{{ actions.currentYears('index') }}{% endblock %}
+
+{% block main %}
+
+    {% if currentYears|length == 0 %}
+        {{ widgets.callout('warning', 'error.no_entries_found') }}
+        <script type="text/javascript">
+            document.addEventListener('kimai.initialized', function() {
+                KimaiReloadPageWidget.create('kimai.conCurrentYearUpdate');
+            });
+        </script>
+    {% else %}
+
+        {% set columns = {
+            'id': {'class': 'alwaysVisible multiCheckbox', 'orderBy': false, 'title': false, 'html_before': tables.datatable_multiupdate_all()},
+            'year': {'class': 'alwaysVisible'},
+            'enabled': {'class': 'text-center w-min', 'orderBy': false},
+            'actions': {'class': 'actions alwaysVisible'},
+        } %}
+
+        {% set tableName = 'admin_current_years' %}
+        {% set manageAllowed = is_granted('manage_current_year') %}
+
+        {{ tables.datatable_header(tableName, columns, query, {'reload': 'kimai.conCurrentYearUpdate'}) }}
+        {% for currentYear in currentYears %}
+            {% set type = 'primary' %}
+      
+            <tr{% if manageAllowed %} class="modal-ajax-form open-edit" data-href="{{ path('current_years_edit', {'id': currentYear.id}) }}"{% endif %}>
+                <td class="text-nowrap">{{ tables.datatable_multiupdate_row(currentYear.id) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'year') }}">{{ currentYear.year }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'enabled') }}">{{ widgets.badge_team_access(currentYear.enabled) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'actions') }}">
+                    {{ actions.currentYear(currentYear, 'index') }}
+                </td>
+            </tr>
+        {% endfor %}
+        {{ tables.data_table_footer(currentYears, 'current_year_paginated', multiUpdateForm) }}
+
+    {% endif %}
+
+{% endblock %}

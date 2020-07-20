@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<xliff version="1.2"
+    xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="es" datatype="plaintext" original="messages.en.xlf">
         <body>
             <!--
@@ -159,6 +160,10 @@
             <trans-unit id="menu.tags">
                 <source>menu.tags</source>
                 <target>Etiquetas</target>
+            </trans-unit>
+            <trans-unit id="menu.current_years">
+                <source>menu.current_years</source>
+                <target>Vigencia</target>
             </trans-unit>
             <trans-unit id="menu.doctor">
                 <source>menu.doctor</source>
@@ -1035,6 +1040,14 @@
             <trans-unit id="label.globalsOnly">
                 <source>label.globalsOnly</source>
                 <target>Solo globales</target>
+            </trans-unit>
+            <trans-unit id="label.year">
+                <source>label.year</source>
+                <target>Vigencia</target>
+            </trans-unit>
+            <trans-unit id="label.enabled">
+                <source>label.enabled</source>
+                <target>Activo</target>
             </trans-unit>
         </body>
     </file>

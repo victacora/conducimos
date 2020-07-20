@@ -1,7 +1,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: es
     app_locales: ar|cs|de|de_CH|da|en|eo|es|eu|fr|hu|it|ja|ko|nl|pl|pt_BR|ru|sk|sv|tr|zh_CN
 
 services:
@@ -235,3 +235,8 @@ services:
         class:     Doctrine\ORM\EntityRepository
         factory:   ['@doctrine.orm.entity_manager', getRepository]
         arguments: ['App\Entity\Invoice']
+
+    App\Repository\ConCurrentYearRepository:
+        class:     Doctrine\ORM\EntityRepository
+        factory:   ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['App\Entity\ConCurrentYear']
