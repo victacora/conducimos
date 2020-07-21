@@ -33,6 +33,11 @@ class UserType extends AbstractType
             'choice_label' => function (User $user) {
                 return $user->getDisplayName();
             },
+            'choice_translation_domain' => false,
+            'documentation' => [
+                'type' => 'integer',
+                'description' => 'User ID',
+            ],
         ]);
 
         $resolver->setDefault('query_builder', function (Options $options) {

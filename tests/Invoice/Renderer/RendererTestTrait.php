@@ -30,11 +30,9 @@ use App\Invoice\NumberGenerator\DateNumberGenerator;
 use App\Invoice\Renderer\AbstractRenderer;
 use App\Repository\Query\InvoiceQuery;
 use App\Twig\DateExtensions;
-use App\Twig\Extensions;
-use App\Utils\LocaleSettings;
+use App\Twig\LocaleExtensions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 trait RendererTestTrait
 {
@@ -87,13 +85,12 @@ trait RendererTestTrait
         $request->setLocale('en');
         $requestStack->push($request);
 
-        $localeSettings = new LocaleSettings($requestStack, new LanguageFormattings($languages));
+        $formattings = new LanguageFormattings($languages);
 
-        $translator = $this->getMockBuilder(TranslatorInterface::class)->getMock();
-        $dateExtension = new DateExtensions($localeSettings);
-        $extensions = new Extensions($localeSettings);
+        $dateExtension = new DateExtensions($requestStack, $formattings);
+        $extensions = new LocaleExtensions($requestStack, $formattings);
 
-        return new DefaultInvoiceFormatter($translator, $dateExtension, $extensions);
+        return new DefaultInvoiceFormatter($dateExtension, $extensions);
     }
 
     protected function getInvoiceModel(): InvoiceModel
@@ -113,7 +110,7 @@ trait RendererTestTrait
         $customer->setMetaField((new CustomerMeta())->setName('foo-customer')->setValue('bar-customer')->setIsVisible(true));
 
         $template = new InvoiceTemplate();
-        $template->setTitle('a very *long* test invoice / template title with [special] character');
+        $template->setTitle('a very *long* test invoice / template title with [ßpecial] chäracter');
         $template->setVat(19);
         $template->setLanguage('en');
 
@@ -192,6 +189,14 @@ trait RendererTestTrait
             ->setProject($project)
             ->setBegin(new \DateTime())
             ->setEnd(new \DateTime())
+            ->setDescription(
+                "foo\n" .
+                "foo\r\n" .
+                'foo' . PHP_EOL .
+                "bar\n" .
+                "bar\r\n" .
+                'Hello'
+            )
             ->setMetaField((new TimesheetMeta())->setName('foo-timesheet3')->setValue('bluuuub')->setIsVisible(true))
         ;
 
@@ -204,6 +209,14 @@ trait RendererTestTrait
             ->setProject($project)
             ->setBegin(new \DateTime())
             ->setEnd(new \DateTime())
+            ->setDescription(
+                "foo\n" .
+                "foo\r\n" .
+                'foo' . PHP_EOL .
+                "bar\n" .
+                "bar\r\n" .
+                'Hello'
+            )
         ;
 
         $entries = [$timesheet, $timesheet2, $timesheet3, $timesheet4, $timesheet5];

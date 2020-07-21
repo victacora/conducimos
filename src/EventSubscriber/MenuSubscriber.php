@@ -72,7 +72,7 @@ final class MenuSubscriber implements EventSubscriberInterface
 
         if ($auth->isGranted('view_invoice')) {
             $invoice = new MenuItemModel('invoice', 'menu.invoice', 'invoice', [], $this->getIcon('invoice'));
-            $invoice->setChildRoutes(['admin_invoice_template', 'admin_invoice_template_edit', 'admin_invoice_template_create', 'admin_invoice_template_copy']);
+            $invoice->setChildRoutes(['admin_invoice_template', 'admin_invoice_template_edit', 'admin_invoice_template_create', 'admin_invoice_template_copy', 'admin_invoice_list', 'admin_invoice_document_upload']);
             $menu->addItem($invoice);
         }
 
@@ -91,6 +91,12 @@ final class MenuSubscriber implements EventSubscriberInterface
             $timesheets = new MenuItemModel('timesheet_admin', 'menu.admin_timesheet', 'admin_timesheet', [], $this->getIcon('timesheet-team'));
             $timesheets->setChildRoutes(['admin_timesheet_export', 'admin_timesheet_edit', 'admin_timesheet_create', 'admin_timesheet_multi_update']);
             $menu->addChild($timesheets);
+        }
+
+        if ($auth->isGranted('view_reporting')) {
+            $reporting = new MenuItemModel('reporting', 'menu.reporting', 'reporting', [], $this->getIcon('reporting'));
+            $reporting->setChildRoutes(['report_user_month', 'report_monthly_users']);
+            $menu->addChild($reporting);
         }
 
         if ($auth->isGranted('view_customer') || $auth->isGranted('view_teamlead_customer') || $auth->isGranted('view_team_customer')) {

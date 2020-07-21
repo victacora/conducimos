@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: es
-    app_locales: ar|cs|de|de_CH|da|en|eo|es|eu|fr|hu|it|ja|ko|nl|pl|pt_BR|ru|sk|sv|tr|zh_CN
+    app_locales: ar|cs|de|de_CH|da|en|eo|es|eu|fr|he|hu|it|ja|ko|nl|pl|pt_BR|ro|ru|sk|sv|tr|vi|zh_CN
 
 services:
     # default configuration for services in *this* file
@@ -74,6 +74,9 @@ services:
     App\Plugin\PluginManager:
         arguments: [!tagged kimai.plugin]
 
+    App\Validator\Constraints\TimesheetValidator:
+        arguments: [!tagged timesheet.validator]
+
     App\Widget\WidgetService:
         arguments:
             $renderer: !tagged widget.renderer
@@ -98,11 +101,24 @@ services:
         tags:
             - { name: doctrine.event_subscriber, priority: 50 }
 
+    # updates timestampable columns (higher priority, so the TimesheetSubscriber will be executed later)
+    Gedmo\Timestampable\TimestampableListener:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, priority: 60 }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
     # make sure, that sqlite supports foreign keys and cascade deletes
     App\Doctrine\SqliteSessionInitSubscriber:
         class: App\Doctrine\SqliteSessionInitSubscriber
         tags:
             - { name: doctrine.event_listener, event: postConnect }
+
+    # store and retrieve sessions in and from database
+    App\Security\SessionHandler:
+        arguments:
+            - !service { class: PDO, factory: ['@database_connection', 'getWrappedConnection'] }
 
     # ================================================================================
     # FORMS
