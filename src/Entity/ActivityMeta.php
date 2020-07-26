@@ -53,4 +53,16 @@ class ActivityMeta implements MetaTableTypeInterface
     {
         return $this->activity;
     }
+
+    public function getActivity(): ?Activity
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(?Activity $activity): self
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
 }

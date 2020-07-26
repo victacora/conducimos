@@ -98,4 +98,9 @@ class RolePermission
 
         return $this;
     }
+
+    public function getAllowed(): ?bool
+    {
+        return $this->allowed;
+    }
 }

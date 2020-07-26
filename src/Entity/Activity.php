@@ -315,4 +315,40 @@ class Activity implements EntityWithMetaFields
             $this->meta = new ArrayCollection();
         }
     }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @return Collection|ActivityMeta[]
+     */
+    public function getMeta(): Collection
+    {
+        return $this->meta;
+    }
+
+    public function addMetum(ActivityMeta $metum): self
+    {
+        if (!$this->meta->contains($metum)) {
+            $this->meta[] = $metum;
+            $metum->setActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetum(ActivityMeta $metum): self
+    {
+        if ($this->meta->contains($metum)) {
+            $this->meta->removeElement($metum);
+            // set the owning side to null (unless already changed)
+            if ($metum->getActivity() === $this) {
+                $metum->setActivity(null);
+            }
+        }
+
+        return $this;
+    }
 }

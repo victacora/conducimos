@@ -61,8 +61,7 @@ final class UserMails implements FOSMailerInterface
                 'user' => $user,
                 'username' => $username,
                 'confirmationUrl' => $url,
-            ])
-        ;
+            ]);
 
         $this->mailer->send($email);
     }
@@ -89,8 +88,7 @@ final class UserMails implements FOSMailerInterface
                 'user' => $user,
                 'username' => $username,
                 'confirmationUrl' => $url,
-            ])
-        ;
+            ]);
 
         $this->mailer->send($email);
     }

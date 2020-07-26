@@ -44,39 +44,6 @@ class ConCurrentYearController extends BaseApiController
         $this->repository = $repository;
     }
 
-
-    /**
-     * Creates a new current year
-     * @ApiSecurity(name="apiUser")
-     * @ApiSecurity(name="apiToken")
-     */
-    public function postAction(Request $request): Response
-    {
-        if (!$this->isGranted('manage_current_year')) {
-            throw new AccessDeniedHttpException('User cannot create current year');
-        }
-
-        $currentYear = new ConCurrentYear();
-
-        $form = $this->createForm(ConCurrentYearApiEditForm::class, $currentYear);
-
-        $form->submit($request->request->all());
-
-        if ($form->isValid()) {
-            $this->repository->saveConCurrentYear($currentYear);
-
-            $view = new View($currentYear, 200);
-            $view->getContext()->setGroups(['Default', 'Entity', 'ConCurrentYear']);
-
-            return $this->viewHandler->handle($view);
-        }
-
-        $view = new View($form);
-        $view->getContext()->setGroups(['Default', 'Entity', 'ConCurrentYear']);
-
-        return $this->viewHandler->handle($view);
-    }
-
     /**
      * Delete a current year
      * @ApiSecurity(name="apiUser")

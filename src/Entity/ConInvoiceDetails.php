@@ -88,6 +88,4 @@ class ConInvoiceDetails
 
         return $this;
     }
-
-
 }

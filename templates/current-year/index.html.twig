@@ -36,7 +36,7 @@
             <tr{% if manageAllowed %} class="modal-ajax-form open-edit" data-href="{{ path('current_years_edit', {'id': currentYear.id}) }}"{% endif %}>
                 <td class="text-nowrap">{{ tables.datatable_multiupdate_row(currentYear.id) }}</td>
                 <td class="{{ tables.data_table_column_class(tableName, columns, 'year') }}">{{ currentYear.year }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'enabled') }}">{{ widgets.badge_team_access(currentYear.enabled) }}</td>
+              	<td class="{{ tables.data_table_column_class(tableName, columns, 'enabled') }}">{{ widgets.label_visible(currentYear.enabled) }}</td>
                 <td class="{{ tables.data_table_column_class(tableName, columns, 'actions') }}">
                     {{ actions.currentYear(currentYear, 'index') }}
                 </td>

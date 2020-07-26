@@ -368,12 +368,12 @@ final class CustomerController extends AbstractController
         $stats = $this->repository->getCustomerStatistics($customer);
 
         $deleteForm = $this->createFormBuilder(null, [
-                'attr' => [
-                    'data-form-event' => 'kimai.customerUpdate kimai.customerDelete',
-                    'data-msg-success' => 'action.delete.success',
-                    'data-msg-error' => 'action.delete.error',
-                ]
-            ])
+            'attr' => [
+                'data-form-event' => 'kimai.customerUpdate kimai.customerDelete',
+                'data-msg-success' => 'action.delete.success',
+                'data-msg-error' => 'action.delete.error',
+            ]
+        ])
             ->add('customer', CustomerType::class, [
                 'label' => 'label.customer',
                 'query_builder' => function (CustomerRepository $repo) use ($customer) {
@@ -453,7 +453,7 @@ final class CustomerController extends AbstractController
                 $this->repository->saveCustomer($customer);
                 $this->flashSuccess('action.update.success');
 
-                return $this->redirectToRoute('customer_details', ['id' => $customer->getId()]);
+                return $this->redirectToRoute('admin_customer');
             } catch (\Exception $ex) {
                 $this->flashError('action.update.error', ['%reason%' => $ex->getMessage()]);
             }

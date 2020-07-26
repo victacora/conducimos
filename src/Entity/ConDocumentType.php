@@ -5,11 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ConCurrentYear
- * @ORM\Entity(repositoryClass="App\Repository\ConCurrentYearRepository")
- * @ORM\Table(name="con_current_year", uniqueConstraints={@ORM\UniqueConstraint(name="year_UNIQUE", columns={"year"})})
+ * ConDocumentType
+ * @ORM\Entity(repositoryClass="App\Repository\ConDocumentTypeRepository")
+ * @ORM\Table(name="con_document_type", uniqueConstraints={@ORM\UniqueConstraint(name="name_UNIQUE", columns={"name"})})
  */
-class ConCurrentYear
+class ConDocumentType
 {
     /**
      * @var int
@@ -21,32 +21,32 @@ class ConCurrentYear
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="year", type="integer", nullable=false)
+     * @ORM\Column(name="name", type="string", length=1000, nullable=false)
      */
-    private $year;
+    private $name;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="enabled", type="boolean", nullable=false, options={"default"="1"})
+     * @ORM\Column(name="enabled", type="boolean", nullable=false)
      */
-    private $enabled = true;
+    private $enabled;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getYear(): ?int
+    public function getName(): ?string
     {
-        return $this->year;
+        return $this->name;
     }
 
-    public function setYear(int $year): self
+    public function setName(string $name): self
     {
-        $this->year = $year;
+        $this->name = $name;
 
         return $this;
     }

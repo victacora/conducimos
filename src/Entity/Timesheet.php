@@ -731,4 +731,52 @@ class Timesheet implements EntityWithMetaFields, ExportItemInterface
             $this->exported = false;
         }
     }
+
+    public function getExported(): ?bool
+    {
+        return $this->exported;
+    }
+
+    public function getBillable(): ?bool
+    {
+        return $this->billable;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TimesheetMeta[]
+     */
+    public function getMeta(): Collection
+    {
+        return $this->meta;
+    }
+
+    public function addMetum(TimesheetMeta $metum): self
+    {
+        if (!$this->meta->contains($metum)) {
+            $this->meta[] = $metum;
+            $metum->setTimesheet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetum(TimesheetMeta $metum): self
+    {
+        if ($this->meta->contains($metum)) {
+            $this->meta->removeElement($metum);
+            // set the owning side to null (unless already changed)
+            if ($metum->getTimesheet() === $this) {
+                $metum->setTimesheet(null);
+            }
+        }
+
+        return $this;
+    }
 }

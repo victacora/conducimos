@@ -10,6 +10,7 @@
 namespace App\Entity;
 
 use App\Export\Annotation as Exporter;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -281,6 +282,42 @@ class Customer implements EntityWithMetaFields
      * @Assert\NotNull()
      */
     private $timeBudget = 0;
+
+    /**
+     * @var ConDocumentType
+     * @ORM\ManyToOne(targetEntity="App\Entity\ConDocumentType")
+     * @ORM\JoinColumn(name="`id_document_type`", referencedColumnName="id", nullable=true)
+     */
+    private $idDocumentType;
+
+    /**
+     * @var ConState
+     * @ORM\ManyToOne(targetEntity="App\Entity\ConState")
+     * @ORM\JoinColumn(name="`id_state`", referencedColumnName="id", nullable=true)
+     */
+    private $idState;
+
+    /**
+     * @var ConCity
+     * @ORM\ManyToOne(targetEntity="App\Entity\ConCity")
+     * @ORM\JoinColumn(name="`id_city`", referencedColumnName="id", nullable=true)
+     */
+    private $idCity;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="birth_date", type="datetime", nullable=true)
+     */
+
+    private $birthDate;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gender", type="string", length=1, nullable=true)
+     * @Assert\Length(max=1)
+     */
+    private $gender;
     /**
      * Meta fields
      *
@@ -629,5 +666,101 @@ class Customer implements EntityWithMetaFields
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function getIdDocumentType(): ?ConDocumentType
+    {
+        return $this->idDocumentType;
+    }
+
+    public function setIdDocumentType(?ConDocumentType $idDocumentType): self
+    {
+        $this->idDocumentType = $idDocumentType;
+
+        return $this;
+    }
+
+    public function getIdState(): ?ConState
+    {
+        return $this->idState;
+    }
+
+    public function setIdState(?ConState $idState): self
+    {
+        $this->idState = $idState;
+
+        return $this;
+    }
+
+    public function getIdCity(): ?ConCity
+    {
+        return $this->idCity;
+    }
+
+    public function setIdCity(?ConCity $idCity): self
+    {
+        $this->idCity = $idCity;
+
+        return $this;
+    }
+
+    public function getGender(): ?String
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?String $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getBirthDay(): ?DateTime
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDay(?DateTime $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CustomerMeta[]
+     */
+    public function getMeta(): Collection
+    {
+        return $this->meta;
+    }
+
+    public function addMetum(CustomerMeta $metum): self
+    {
+        if (!$this->meta->contains($metum)) {
+            $this->meta[] = $metum;
+            $metum->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetum(CustomerMeta $metum): self
+    {
+        if ($this->meta->contains($metum)) {
+            $this->meta->removeElement($metum);
+            // set the owning side to null (unless already changed)
+            if ($metum->getCustomer() === $this) {
+                $metum->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 }

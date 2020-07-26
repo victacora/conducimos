@@ -256,3 +256,18 @@ services:
         class:     Doctrine\ORM\EntityRepository
         factory:   ['@doctrine.orm.entity_manager', getRepository]
         arguments: ['App\Entity\ConCurrentYear']
+
+    App\Repository\ConDocumentTypeRepository:
+        class:     Doctrine\ORM\EntityRepository
+        factory:   ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['App\Entity\ConDocumentType']
+
+    App\Repository\ConCityRepository:
+        class:     Doctrine\ORM\EntityRepository
+        factory:   ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['App\Entity\ConCity']
+
+    App\Repository\ConStateRepository:
+        class:     Doctrine\ORM\EntityRepository
+        factory:   ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['App\Entity\ConState']

@@ -38,16 +38,16 @@ class ConBoxOpening
     private $openAt;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="closed_at", type="datetime", nullable=false)
+     * @ORM\Column(name="closed_at", type="datetime", nullable=true)
      */
     private $closedAt;
 
     /**
-     * @var float
+     * @var float|null
      *
-     * @ORM\Column(name="total_cash", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="total_cash", type="float", precision=10, scale=0, nullable=true)
      */
     private $totalCash;
 
@@ -110,7 +110,7 @@ class ConBoxOpening
         return $this->closedAt;
     }
 
-    public function setClosedAt(\DateTimeInterface $closedAt): self
+    public function setClosedAt(?\DateTimeInterface $closedAt): self
     {
         $this->closedAt = $closedAt;
 
@@ -122,7 +122,7 @@ class ConBoxOpening
         return $this->totalCash;
     }
 
-    public function setTotalCash(float $totalCash): self
+    public function setTotalCash(?float $totalCash): self
     {
         $this->totalCash = $totalCash;
 
@@ -168,5 +168,4 @@ class ConBoxOpening
 
         return $this;
     }
-
 }

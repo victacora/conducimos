@@ -92,8 +92,7 @@ class CustomerRepository extends EntityRepository
             ->addSelect('SUM(t.internalRate) as recordInternalRate')
             ->from(Timesheet::class, 't')
             ->join(Project::class, 'p', Query\Expr\Join::WITH, 't.project = p.id')
-            ->andWhere('p.customer = :customer')
-        ;
+            ->andWhere('p.customer = :customer');
         $timesheetResult = $qb->getQuery()->execute(['customer' => $customer], Query::HYDRATE_ARRAY);
 
         if (isset($timesheetResult[0])) {
@@ -109,8 +108,7 @@ class CustomerRepository extends EntityRepository
             ->from(Activity::class, 'a')
             ->join(Project::class, 'p', Query\Expr\Join::WITH, 'a.project = p.id')
             ->andWhere('a.project = p.id')
-            ->andWhere('p.customer = :customer')
-        ;
+            ->andWhere('p.customer = :customer');
         $activityResult = $qb->getQuery()->execute(['customer' => $customer], Query::HYDRATE_ARRAY);
 
         if (isset($activityResult[0])) {
@@ -120,8 +118,7 @@ class CustomerRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('COUNT(p.id) as projectAmount')
             ->from(Project::class, 'p')
-            ->andWhere('p.customer = :customer')
-        ;
+            ->andWhere('p.customer = :customer');
         $projectResult = $qb->getQuery()->execute(['customer' => $customer], Query::HYDRATE_ARRAY);
 
         if (isset($projectResult[0])) {
@@ -214,8 +211,7 @@ class CustomerRepository extends EntityRepository
 
         $qb
             ->select('c')
-            ->from(Customer::class, 'c')
-        ;
+            ->from(Customer::class, 'c');
 
         $orderBy = 'c.' . $query->getOrderBy();
         $qb->orderBy($orderBy, $query->getOrder());
@@ -294,8 +290,7 @@ class CustomerRepository extends EntityRepository
             ->resetDQLPart('select')
             ->resetDQLPart('orderBy')
             ->resetDQLPart('groupBy')
-            ->select($qb->expr()->countDistinct('c.id'))
-        ;
+            ->select($qb->expr()->countDistinct('c.id'));
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
@@ -362,8 +357,7 @@ class CustomerRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('comments.customer', ':customer'))
             ->addOrderBy('comments.pinned', 'DESC')
             ->addOrderBy('comments.createdAt', 'DESC')
-            ->setParameter('customer', $customer)
-        ;
+            ->setParameter('customer', $customer);
 
         return $qb->getQuery()->getResult();
     }

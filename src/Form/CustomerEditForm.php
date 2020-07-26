@@ -9,16 +9,21 @@
 
 namespace App\Form;
 
+use App\Entity\ConCity;
+use App\Entity\ConDocumentType;
+use App\Entity\ConState;
 use App\Entity\Customer;
+use App\Repository\ConDocumentTypeRepository;
+use App\Repository\ConCityRepository;
+use App\Repository\ConStateRepository;
 use App\Form\Type\MailType;
+use App\Form\Type\GenderType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use App\Form\Type\DateTimePickerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,6 +31,16 @@ class CustomerEditForm extends AbstractType
 {
     use EntityFormTrait;
 
+    private $conDocumentTypeRepository;
+    private $conStateRepository;
+    private $conCityRepository;
+
+    public function __construct(ConDocumentTypeRepository $conDocumentTypeRepository, ConStateRepository $conStateRepository, ConCityRepository $conCityRepository)
+    {
+        $this->conDocumentTypeRepository = $conDocumentTypeRepository;
+        $this->conStateRepository = $conStateRepository;
+        $this->conCityRepository = $conCityRepository;
+    }
     /**
      * {@inheritdoc}
      */
@@ -40,63 +55,64 @@ class CustomerEditForm extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'label.name',
+                'required' => true,
+            ])
+            ->add('idDocumentType', EntityType::class, [
+                'label' => 'label.id_document_type',
+                'placeholder' => 'label.id_document_type_place_holder',
+                'class' => ConDocumentType::class,
+                'choice_label' => 'name',
+                'choices' => $this->conDocumentTypeRepository->listConDocumentTypes(),
+                'required' => true,
+            ])
+            ->add('number', IntegerType::class, [
+                'label' => 'label.number',
+                'required' => true,
                 'attr' => [
                     'autofocus' => 'autofocus'
                 ],
             ])
-            ->add('number', TextType::class, [
-                'label' => 'label.number',
-                'required' => false,
+            ->add('gender', GenderType::class, [
+                'label' => 'label.gender',
+                'placeholder' => 'label.gender_place_holder',
+                'required' => true,
             ])
-            ->add('comment', TextareaType::class, [
-                'label' => 'label.description',
-                'required' => false,
+            ->add('birthDay', DateTimePickerType::class, [
+                'format' => 'dd.MM.yyyy HH:mm',
+                'label' => 'label.birth_day',
+                'required' => true,
             ])
-            ->add('company', TextType::class, [
-                'label' => 'label.company',
-                'required' => false,
-            ])
-            ->add('vatId', TextType::class, [
-                'label' => 'label.vat_id',
-                'required' => false,
-            ])
-            ->add('contact', TextType::class, [
-                'label' => 'label.contact',
-                'required' => false,
-            ])
-            ->add('address', TextareaType::class, [
+            ->add('address', TextType::class, [
                 'label' => 'label.address',
-                'required' => false,
+                'required' => true,
             ])
-            ->add('country', CountryType::class, [
-                'label' => 'label.country',
+            ->add('idCity', EntityType::class, [
+                'label' => 'label.id_city',
+                'placeholder' => 'label.id_city_place_holder',
+                'class' => ConCity::class,
+                'choice_label' => 'name',
+                'choices' => $this->conCityRepository->listConCities(),
+                'required' => true,
             ])
-            ->add('currency', CurrencyType::class, [
-                'label' => 'label.currency',
+            ->add('idState', EntityType::class, [
+                'label' => 'label.id_state',
+                'placeholder' => 'label.id_state_place_holder',
+                'class' => ConState::class,
+                'choice_label' => 'name',
+                'choices' => $this->conStateRepository->listConStates(),
+                'required' => true,
             ])
             ->add('phone', TelType::class, [
                 'label' => 'label.phone',
                 'required' => false,
             ])
-            ->add('fax', TelType::class, [
-                'label' => 'label.fax',
-                'required' => false,
-                'attr' => ['icon' => 'fax'],
-            ])
             ->add('mobile', TelType::class, [
                 'label' => 'label.mobile',
-                'required' => false,
+                'required' => true,
                 'attr' => ['icon' => 'mobile'],
             ])
             ->add('email', MailType::class, [
-                'required' => false,
-            ])
-            ->add('homepage', UrlType::class, [
-                'label' => 'label.homepage',
-                'required' => false,
-            ])
-            ->add('timezone', TimezoneType::class, [
-                'label' => 'label.timezone',
+                'required' => true,
             ]);
 
         $this->addCommonFields($builder, $options);

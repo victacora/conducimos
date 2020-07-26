@@ -45,6 +45,20 @@ class ConBoxBalance
     private $observation;
 
     /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="start_box_at", type="datetime", nullable=true)
+     */
+    private $startBoxAt;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="start_box_close", type="datetime", nullable=true)
+     */
+    private $startBoxClose;
+
+    /**
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -118,6 +132,30 @@ class ConBoxBalance
         return $this;
     }
 
+    public function getStartBoxAt(): ?\DateTimeInterface
+    {
+        return $this->startBoxAt;
+    }
+
+    public function setStartBoxAt(?\DateTimeInterface $startBoxAt): self
+    {
+        $this->startBoxAt = $startBoxAt;
+
+        return $this;
+    }
+
+    public function getStartBoxClose(): ?\DateTimeInterface
+    {
+        return $this->startBoxClose;
+    }
+
+    public function setStartBoxClose(?\DateTimeInterface $startBoxClose): self
+    {
+        $this->startBoxClose = $startBoxClose;
+
+        return $this;
+    }
+
     public function getIdUser(): ?User
     {
         return $this->idUser;
@@ -155,5 +193,4 @@ class ConBoxBalance
 
         return $this;
     }
-
 }

@@ -3,13 +3,9 @@
 
     {% set actions = {'search': {'class': 'search-toggle visible-xs-inline'}, 'visibility': '#modal_customer_admin'} %}
 
-    {% set actions = actions|merge({'download': {'url': path('customer_export'), 'class': 'toolbar-action'}}) %}
-
     {% if is_granted('create_customer') %}
         {% set actions = actions|merge({'create': path('admin_customer_create')}) %}
     {% endif %}
-
-    {% set actions = actions|merge({'help': {'url': 'customer.html'|docu_link, 'target': '_blank'}}) %}
 
     {% set event = trigger('actions.customers', {'actions': actions, 'view': view}) %}
     {{ widgets.page_actions(event.payload.actions) }}

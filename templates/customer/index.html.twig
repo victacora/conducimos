@@ -5,77 +5,57 @@
 {% import "customer/actions.html.twig" as actions %}
 
 {% set columns = {
-    'name': {'class': 'alwaysVisible'},
-    'comment': {'class': 'hidden-xs hidden-sm', 'title': 'label.description'|trans},
-    'number': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'company': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'vat_id': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'contact': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'address': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'country': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'currency': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
+    'id_document_type': {'class': 'hidden-xs hidden-sm', 'orderBy': false},
+    'number': {'class': 'hidden-xs hidden-sm', 'orderBy': false},
+    'name': {'class': 'hidden-xs hidden-sm', 'orderBy': false},
+    'email': {'class': 'hidden-xs hidden-sm', 'orderBy': false},
     'phone': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'fax': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
     'mobile': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'email': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-    'homepage': {'class': 'hidden-xs hidden-sm hidden', 'orderBy': false},
-} %}
-{% for field in metaColumns %}
-    {% set columns = columns|merge({
-        ('mf_' ~ field.name): {'title': field.label|trans, 'class': 'hidden-xs hidden-sm', 'orderBy': false}
-    }) %}
-{% endfor %}
-{% set columns = columns|merge({
-    'team': {'class': 'text-center w-min', 'orderBy': false},
-    'visible': {'class': 'text-center hidden w-min', 'orderBy': false},
+    'visible': {'class': 'text-center w-min', 'orderBy': false},
     'actions': {'class': 'actions alwaysVisible'},
-}) %}
+} %}
 
 {% set tableName = 'customer_admin' %}
 
-{% block page_title %}{{ 'admin_customer.title'|trans }}{% endblock %}
-{% block page_search %}{{ toolbar.dropDownSearch(toolbarForm) }}{% endblock %}
-{% block page_actions %}{{ actions.customers('index') }}{% endblock %}
+{% block page_title %}
+	{{ 'admin_customer.title'|trans }}
+{% endblock %}
+{% block page_search %}
+	{{ toolbar.dropDownSearch(toolbarForm) }}
+{% endblock %}
+{% block page_actions %}
+	{{ actions.customers('index') }}
+{% endblock %}
 
 {% block main_before %}
-    {{ tables.data_table_column_modal(tableName, columns) }}
+	{{ tables.data_table_column_modal(tableName, columns) }}
 {% endblock %}
 
 {% block main %}
 
-    {% if entries.count == 0 %}
-        {{ widgets.nothing_found('kimai.customerUpdate kimai.customerTeamUpdate') }}
-    {% else %}
-        {{ tables.datatable_header(tableName, columns, query, {'reload': 'kimai.customerUpdate kimai.customerTeamUpdate'}) }}
+	{% if entries.count == 0 %}
+		{{ widgets.nothing_found('kimai.customerUpdate kimai.customerTeamUpdate') }}
+	{% else %}
+		{{ tables.datatable_header(tableName, columns, query, {'reload': 'kimai.customerUpdate kimai.customerTeamUpdate'}) }}
 
-        {% for entry in entries %}
-            <tr{% if is_granted('view', entry) %} class="alternative-link open-edit" data-href="{{ path('customer_details', {'id': entry.id}) }}"{% endif %}>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'name') }}">{{ widgets.label_color_dot('customer', true, entry.name, null, entry.color) }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'comment') }}">{{ entry.comment|comment2html }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'number') }}">{{ entry.number }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'company') }}">{{ entry.company }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'vat_id') }}">{{ entry.vatId }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'contact') }}">{{ entry.contact }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'address') }}">{{ entry.address }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'country') }}">{{ entry.country|country }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'currency') }}">{{ entry.currency|currency }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'phone') }}">{{ entry.phone }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'fax') }}">{{ entry.fax }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'mobile') }}">{{ entry.mobile }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'email') }}">{{ entry.email }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'homepage') }}">{{ entry.homepage }}</td>
-                {% for field in metaColumns %}
-                    <td class="{{ tables.data_table_column_class(tableName, columns, 'mf_' ~ field.name) }}">
-                        {{ tables.datatable_meta_column(entry, field) }}
-                    </td>
-                {% endfor %}
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'team') }}">{{ widgets.badge_team_access(entry.teams) }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'visible') }}">{{ widgets.label_visible(entry.visible) }}</td>
-                <td class="{{ tables.data_table_column_class(tableName, columns, 'actions') }}">{{ actions.customer(entry, 'index') }}</td>
-            </tr>
-        {% endfor %}
+		{% for entry in entries %}
+			<tr {% if is_granted('view', entry) %} class="modal-ajax-form" data-href="{{ path('admin_customer_edit', {'id': entry.id}) }}" {% endif %}>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'id_document_type') }}">
+					{% if entry.idDocumentType is not empty and entry.idDocumentType.name is not empty%}
+						{{ entry.idDocumentType.name|nl2br }}
+					{% endif %}
+				</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'number') }}">{{ entry.number }}</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'name') }}">{{ widgets.label_color_dot('customer', true, entry.name, null, entry.color) }}</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'email') }}">{{ entry.email }}</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'phone') }}">{{ entry.phone }}</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'mobile') }}">{{ entry.mobile }}</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'visible') }}">{{ widgets.label_visible(entry.visible) }}</td>
+				<td class="{{ tables.data_table_column_class(tableName, columns, 'actions') }}">{{ actions.customer(entry, 'index') }}</td>
+			</tr>
+		{% endfor %}
 
-        {{ tables.data_table_footer(entries, 'admin_customer_paginated') }}
-    {% endif %}
+		{{ tables.data_table_footer(entries, 'admin_customer_paginated') }}
+	{% endif %}
 
 {% endblock %}

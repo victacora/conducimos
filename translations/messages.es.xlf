@@ -211,7 +211,7 @@
             </trans-unit>
             <trans-unit id="label.name">
                 <source>label.name</source>
-                <target>Nombre</target>
+                <target>Nombre completo ó razón social</target>
             </trans-unit>
             <trans-unit id="label.comment">
                 <source>label.comment</source>
@@ -534,7 +534,43 @@
             </trans-unit>
             <trans-unit id="label.number">
                 <source>label.number</source>
-                <target>Cuenta</target>
+                <target>Numero de documento</target>
+            </trans-unit>
+            <trans-unit id="label.id_document_type">
+                <source>label.id_document_type</source>
+                <target>Tipo de documento</target>
+            </trans-unit>
+            <trans-unit id="label.id_document_type_place_holder">
+                <source>label.id_document_type_place_holder</source>
+                <target>Seleccione un tipo documento</target>
+            </trans-unit>
+            <trans-unit id="label.id_city">
+                <source>label.id_city</source>
+                <target>Ciudad</target>
+            </trans-unit>
+            <trans-unit id="label.id_city_place_holder">
+                <source>label.id_city_place_holder</source>
+                <target>Seleccione la ciudad</target>
+            </trans-unit>
+            <trans-unit id="label.id_state">
+                <source>label.id_state</source>
+                <target>Departamento</target>
+            </trans-unit>
+            <trans-unit id="label.id_state_place_holder">
+                <source>label.id_state_place_holder</source>
+                <target>Seleccione el departamento</target>
+            </trans-unit>
+            <trans-unit id="label.gender">
+                <source>label.gender</source>
+                <target>Género</target>
+            </trans-unit>
+            <trans-unit id="label.gender_place_holder">
+                <source>label.gender_place_holder</source>
+                <target>Seleccione un género</target>
+            </trans-unit>
+            <trans-unit id="label.birth_day">
+                <source>label.birth_day</source>
+                <target>Seleccione la fecha de nacimiento</target>
             </trans-unit>
             <trans-unit id="label.company">
                 <source>label.company</source>

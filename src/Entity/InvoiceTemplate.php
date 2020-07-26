@@ -356,4 +356,9 @@ class InvoiceTemplate
             $this->id = null;
         }
     }
+
+    public function getDecimalDuration(): ?bool
+    {
+        return $this->decimalDuration;
+    }
 }

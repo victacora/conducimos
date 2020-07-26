@@ -134,6 +134,12 @@ final class MenuSubscriber implements EventSubscriberInterface
             $menu->addChild($users);
         }
 
+        if ($auth->isGranted('plugins')) {
+            $menu->addChild(
+                new MenuItemModel('plugins', 'menu.plugin', 'plugins', [], $this->getIcon('plugin'))
+            );
+        }
+
         if ($auth->isGranted('view_team')) {
             $teams = new MenuItemModel('user_team', 'menu.admin_team', 'admin_team', [], $this->getIcon('team'));
             $teams->setChildRoutes(['admin_team_create', 'admin_team_edit']);

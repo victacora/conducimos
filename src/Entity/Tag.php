@@ -10,6 +10,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -115,5 +116,13 @@ class Tag
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Timesheet[]
+     */
+    public function getTimesheets(): Collection
+    {
+        return $this->timesheets;
     }
 }

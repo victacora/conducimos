@@ -5,27 +5,28 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ConCurrentYear
- * @ORM\Entity(repositoryClass="App\Repository\ConCurrentYearRepository")
- * @ORM\Table(name="con_current_year", uniqueConstraints={@ORM\UniqueConstraint(name="year_UNIQUE", columns={"year"})})
+ * ConState
+ *
+ * @ORM\Table(name="con_state")
+ * @ORM\Entity(repositoryClass="App\Repository\ConStateRepository")
  */
-class ConCurrentYear
+class ConState
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="string", length=30, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="year", type="integer", nullable=false)
+     * @ORM\Column(name="name", type="string", length=500, nullable=false)
      */
-    private $year;
+    private $name;
 
     /**
      * @var bool
@@ -34,19 +35,19 @@ class ConCurrentYear
      */
     private $enabled = true;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getYear(): ?int
+    public function getName(): ?string
     {
-        return $this->year;
+        return $this->name;
     }
 
-    public function setYear(int $year): self
+    public function setName(string $name): self
     {
-        $this->year = $year;
+        $this->name = $name;
 
         return $this;
     }

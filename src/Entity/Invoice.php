@@ -293,4 +293,98 @@ class Invoice
     {
         return $this->invoiceFilename;
     }
+
+    public function setInvoiceNumber(string $invoiceNumber): self
+    {
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTimezone(): ?string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(string $timezone): self
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    public function setTotal(float $total): self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function setTax(float $tax): self
+    {
+        $this->tax = $tax;
+
+        return $this;
+    }
+
+    public function setCurrency(string $currency): self
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function setDueDays(int $dueDays): self
+    {
+        $this->dueDays = $dueDays;
+
+        return $this;
+    }
+
+    public function setVat(float $vat): self
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function setInvoiceFilename(string $invoiceFilename): self
+    {
+        $this->invoiceFilename = $invoiceFilename;
+
+        return $this;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ConInvoiceStatus
  *
- * @ORM\Table(name="con_invoice_status", indexes={@ORM\Index(name="id_user_idx", columns={"user_id"}), @ORM\Index(name="id_invoice_idx", columns={"id_invoice"})})
+ * @ORM\Table(name="con_invoice_status", indexes={@ORM\Index(name="id_invoice_idx", columns={"id_invoice"}), @ORM\Index(name="id_user_idx", columns={"user_id"})})
  * @ORM\Entity
  */
 class ConInvoiceStatus
@@ -126,6 +126,4 @@ class ConInvoiceStatus
 
         return $this;
     }
-
-
 }

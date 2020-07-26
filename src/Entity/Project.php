@@ -526,4 +526,52 @@ class Project implements EntityWithMetaFields
             $this->meta = new ArrayCollection();
         }
     }
+
+    public function getTimezone(): ?string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(?string $timezone): self
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @return Collection|ProjectMeta[]
+     */
+    public function getMeta(): Collection
+    {
+        return $this->meta;
+    }
+
+    public function addMetum(ProjectMeta $metum): self
+    {
+        if (!$this->meta->contains($metum)) {
+            $this->meta[] = $metum;
+            $metum->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetum(ProjectMeta $metum): self
+    {
+        if ($this->meta->contains($metum)) {
+            $this->meta->removeElement($metum);
+            // set the owning side to null (unless already changed)
+            if ($metum->getProject() === $this) {
+                $metum->setProject(null);
+            }
+        }
+
+        return $this;
+    }
 }

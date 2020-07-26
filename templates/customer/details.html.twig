@@ -13,7 +13,6 @@
         {% block box_attributes %}id="customer_details_box"{% endblock %}
         {% block box_title %}
             {{ widgets.label_customer(customer) }}
-            {% if customer.company is not empty %} &ndash; {{ customer.company }}{% endif %}
         {% endblock %}
         {% block box_tools %}
             {% if can_edit %}
@@ -22,40 +21,57 @@
         {% endblock %}
         {% block box_body_class %}no-padding{% endblock %}
         {% block box_body %}
-            {% if customer.comment is not empty %}
-                <div class="comment">
-                    {{ customer.comment|comment2html(true) }}
-                </div>
-            {% endif %}
             <table class="table table-hover dataTable">
-                {% if not customer.visible %}
+              {% if customer.idDocumentType is not empty and customer.idDocumentType.name is not empty%}
                     <tr>
-                        <th>{{ 'label.visible'|trans }}</th>
+                        <th>{{ 'label.id_document_type'|trans }}</th>
                         <td>
-                            {{ widgets.label_boolean(customer.visible) }}
+                            {{ customer.idDocumentType.name|nl2br }}
                         </td>
                     </tr>
                 {% endif %}
+                {% if customer.number is not empty%}
+                    <tr>
+                        <th>{{ 'label.number'|trans }}</th>
+                        <td>
+                            {{ customer.number|nl2br }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if customer.idState is not empty and customer.idState.name is not empty%}
+                    <tr>
+                        <th>{{ 'label.id_state'|trans }}</th>
+                        <td>
+                            {{ customer.idState.name|nl2br }}
+                        </td>
+                    </tr>
+                {% endif %}
+                  {% if customer.idCity is not empty and customer.idCity.name is not empty%}
+                    <tr>
+                        <th>{{ 'label.id_city'|trans }}</th>
+                        <td>
+                            {{ customer.idCity.name|nl2br }}
+                        </td>
+                    </tr>
+                {% endif %}
+                 {% if customer.address is not empty %}
+                    <tr>
+                        <th>{{ 'label.address'|trans }}</th>
+                        <td>
+                            {{ customer.address|nl2br }}
+                        </td>
+                    </tr>
+                {% endif %}
+
                 {% if customer.address is not empty %}
                     <tr>
                         <th>{{ 'label.address'|trans }}</th>
                         <td>
                             {{ customer.address|nl2br }}
-
-                            {% if customer.country is not empty %}
-                                <br>
-                                {{ customer.country|country }}
-                            {% endif %}
                         </td>
                     </tr>
                 {% endif %}
-                {% if customer.contact is not empty %}
-                    <tr>
-                        <th>{{ 'label.contact'|trans }}</th>
-                        <td>{{ customer.contact }}</td>
-                    </tr>
-                {% endif %}
-                {% if customer.phone is not empty %}
+              {% if customer.phone is not empty %}
                     <tr>
                         <th>{{ 'label.phone'|trans }}</th> 
                         <td><a href="tel:{{ customer.phone }}">{{ customer.phone }}</a></td>
@@ -73,71 +89,17 @@
                         <td><a href="mailto:{{ customer.email }}">{{ customer.email }}</a></td>
                     </tr>
                 {% endif %}
-                {% if customer.homepage is not empty %}
+                 {% if customer.visible is not empty%}
                     <tr>
-                        <th>{{ 'label.homepage'|trans }}</th>
-                        <td><a href="{{ customer.homepage }}" target="_blank">{{ customer.homepage|replace({'https://': '', 'http://': ''}) }}</a></td>
+                        <th>{{ 'label.visible'|trans }}</th>
+                        <td>
+                            {{ widgets.label_boolean(customer.visible) }}
+                        </td>
                     </tr>
                 {% endif %}
-                {% if customer.fax is not empty %}
-                    <tr>
-                        <th>{{ 'label.fax'|trans }}</th>
-                        <td>{{ customer.fax }}</td>
-                    </tr>
-                {% endif %}
-                {% if customer.timezone is not empty %}
-                    <tr>
-                        <th>{{ 'label.timezone'|trans }}</th>
-                        <td><span data-toggle="tooltip" data-placement="top" title="{{ customer.timezone }}">{{ now|date_time }}</span></td>
-                    </tr>
-                {% endif %}
-                {% if customer.currency is not empty %}
-                    <tr>
-                        <th>{{ 'label.currency'|trans }}</th>
-                        <td>{{ customer.currency }}</td>
-                    </tr>
-                {% endif %}
-                {% if is_granted('details', customer) %}
-                    {% if customer.number is not empty %}
-                        <tr>
-                            <th>{{ 'label.number'|trans }}</th>
-                            <td>{{ customer.number }}</td>
-                        </tr>
-                    {% endif %}
-                    {% if customer.vatId is not empty %}
-                        <tr>
-                            <th>{{ 'label.vat_id'|trans }}</th>
-                            <td>{{ customer.vatId }}</td>
-                        </tr>
-                    {% endif %}
-                {% endif %}
-                {% for metaField in customer.visibleMetaFields %}
-                    <tr>
-                        <th>{{ metaField.label|trans }}</th>
-                        <td>{{ widgets.form_type_value(metaField.type, metaField.value, customer) }}</td>
-                    </tr>
-                {% endfor %}
             </table>
         {% endblock %}
     {% endembed %}
-
-    {{ render(controller('App\\Controller\\CustomerController::projectsAction', {'customer': customer.id, 'page': 1})) }}
-    
-    {% if stats is not null %}
-        {{ include('customer/embed_budget.html.twig', {'customer': customer, 'stats': stats}) }}
-    {% endif %}
-
-    {% if can_edit %}
-        {{ include('embeds/rates-table.html.twig', {'id': 'customer_rates_box', 'entity': customer, 'create_url': path('admin_customer_rate_add', {'id': customer.id}), 'delete_route': 'delete_customer_rate', 'currency': customer.currency}) }}
-    {% endif %}
-
-    {% if teams is not null %}
-        {% set options = {'teams': teams, 'team': team} %}
-        {% if is_granted('permissions', customer) %}
-            {% set options = options|merge({'route_create': path('customer_team_create', {'id': customer.id}), 'route_edit': path('admin_customer_permissions', {'id': customer.id})}) %}
-        {% endif %}
-        {{ include('embeds/teams.html.twig', options) }}
-    {% endif %}
 
     {% if comments is not null %}
         {% set options = {'form': commentForm, 'comments': comments} %}

@@ -16,7 +16,7 @@ class CustomerQuery extends BaseQuery implements VisibilityInterface
 {
     use VisibilityTrait;
 
-    public const CUSTOMER_ORDER_ALLOWED = ['id', 'name', 'comment', 'country', 'number'];
+    public const CUSTOMER_ORDER_ALLOWED = ['id', 'name', 'idDocumentType', 'number'];
 
     public function __construct()
     {

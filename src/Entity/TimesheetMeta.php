@@ -53,4 +53,16 @@ class TimesheetMeta implements MetaTableTypeInterface
     {
         return $this->timesheet;
     }
+
+    public function getTimesheet(): ?Timesheet
+    {
+        return $this->timesheet;
+    }
+
+    public function setTimesheet(?Timesheet $timesheet): self
+    {
+        $this->timesheet = $timesheet;
+
+        return $this;
+    }
 }
