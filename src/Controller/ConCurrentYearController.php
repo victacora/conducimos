@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 /**
  * @Route(path="/admin/current-years")
@@ -69,11 +70,15 @@ class ConCurrentYearController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
+
+                $this->validateEnabledCurrentYear($conCurrentYear, $repository);
                 $repository->saveConCurrentYear($conCurrentYear);
                 $this->flashSuccess('action.update.success');
 
                 return $this->redirectToRoute('current-years');
             } catch (ORMException $ex) {
+                $this->flashError('action.update.error', ['%reason%' => $ex->getMessage()]);
+            } catch (Exception $ex) {
                 $this->flashError('action.update.error', ['%reason%' => $ex->getMessage()]);
             }
         }
@@ -83,6 +88,19 @@ class ConCurrentYearController extends AbstractController
             'form' => $editForm->createView()
         ]);
     }
+
+    public function validateEnabledCurrentYear(ConCurrentYear $conCurrentYear, ConCurrentYearRepository $repository)
+    {
+        $conCurrentYearEnabled = $repository->findConCurrentYearByStatus(true);
+        $conCurrentYearByYear = $repository->findConCurrentYearByYear($conCurrentYear->getYear());
+        if (isset($conCurrentYearEnabled) && $conCurrentYear->getEnabled() && $conCurrentYear->getId() !== $conCurrentYearEnabled->getId()) {
+            throw new Exception('Ya existe una vigencia activa. ' . $conCurrentYearEnabled->getYear() . '. Por favor desactive la opción "Activo". ');
+        }
+        if (isset($conCurrentYearByYear) && $conCurrentYearByYear->getId() !== $conCurrentYear->getId()) {
+            throw new Exception('Ya existe una vigencia para el año ingresado (' . $conCurrentYearByYear->getYear() . '). Por favor use otro como "vigencia". ');
+        }
+    }
+
 
     /**
      * @Route(path="/create", name="current_years_create", methods={"GET", "POST"})
@@ -101,11 +119,15 @@ class ConCurrentYearController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
+
+                $this->validateEnabledCurrentYear($conCurrentYear, $repository);
                 $repository->saveConCurrentYear($conCurrentYear);
                 $this->flashSuccess('action.update.success');
 
                 return $this->redirectToRoute('current-years');
             } catch (ORMException $ex) {
+                $this->flashError('action.update.error', ['%reason%' => $ex->getMessage()]);
+            } catch (Exception $ex) {
                 $this->flashError('action.update.error', ['%reason%' => $ex->getMessage()]);
             }
         }

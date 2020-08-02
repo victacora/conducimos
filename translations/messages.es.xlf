@@ -165,6 +165,14 @@
                 <source>menu.current_years</source>
                 <target>Vigencia</target>
             </trans-unit>
+            <trans-unit id="menu.concepts">
+                <source>menu.concepts</source>
+                <target>Conceptos</target>
+            </trans-unit>
+            <trans-unit id="menu.group_concepts">
+                <source>menu.group_concepts</source>
+                <target>Tarifarios</target>
+            </trans-unit>
             <trans-unit id="menu.doctor">
                 <source>menu.doctor</source>
                 <target>Doctor</target>

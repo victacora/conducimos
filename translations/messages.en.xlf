@@ -189,6 +189,14 @@
                 <source>menu.current_years</source>
                 <target>Current years</target>
             </trans-unit>
+            <trans-unit id="menu.concepts">
+                <source>menu.concepts</source>
+                <target>Concepts</target>
+            </trans-unit>
+            <trans-unit id="menu.group_concepts">
+                <source>menu.group_concepts</source>
+                <target>Group concepts</target>
+            </trans-unit>
             <trans-unit id="menu.doctor">
                 <source>menu.doctor</source>
                 <target>Doctor</target>

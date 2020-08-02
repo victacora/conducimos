@@ -26,7 +26,6 @@ class ConCurrentYearEditForm extends AbstractType
             ])
             ->add('enabled', CheckboxType::class, [
                 'label' => 'label.enabled',
-                'data' => false,
                 'attr' => [
                     'autofocus' => 'autofocus'
                 ],

@@ -101,6 +101,8 @@ final class PermissionController extends AbstractController
             new PermissionSection('Timesheet (other)', '_other_timesheet'),
             new PermissionSection('Timesheet (own)', '_own_timesheet'),
             new PermissionSection('Current Years', '_current_year'),
+            new PermissionSection('Concepts', '_concepts'),
+            new PermissionSection('Group concepts', '_group_concepts'),
             new PermissionSection('Reporting', '_reporting'),
         ];
 

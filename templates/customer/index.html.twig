@@ -39,7 +39,7 @@
 		{{ tables.datatable_header(tableName, columns, query, {'reload': 'kimai.customerUpdate kimai.customerTeamUpdate'}) }}
 
 		{% for entry in entries %}
-			<tr {% if is_granted('view', entry) %} class="modal-ajax-form" data-href="{{ path('admin_customer_edit', {'id': entry.id}) }}" {% endif %}>
+			<tr {% if is_granted('view', entry) %} class="modal-ajax-form open-edit" data-href="{{ path('admin_customer_edit', {'id': entry.id}) }}" {% endif %}>
 				<td class="{{ tables.data_table_column_class(tableName, columns, 'id_document_type') }}">
 					{% if entry.idDocumentType is not empty and entry.idDocumentType.name is not empty%}
 						{{ entry.idDocumentType.name|nl2br }}

@@ -122,6 +122,18 @@ final class MenuSubscriber implements EventSubscriberInterface
                 new MenuItemModel('view_current_year', 'menu.current_years', 'current-years', [], 'fa fa-hourglass-start')
             );
         }
+
+        if ($auth->isGranted('view_concepts')) {
+            $menu->addChild(
+                new MenuItemModel('view_concepts', 'menu.concepts', 'current-years', [], 'fa fa-tags')
+            );
+        }
+
+        if ($auth->isGranted('view_group_concepts')) {
+            $menu->addChild(
+                new MenuItemModel('view_group_concepts', 'menu.group_concepts', 'current-years', [], 'fa fa-book')
+            );
+        }
     }
 
     private function configureSystemMenu(MenuItemInterface $menu)

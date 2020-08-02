@@ -43,6 +43,11 @@ class ConCurrentYearRepository extends EntityRepository
         return $this->findOneBy(['year' => $year]);
     }
 
+    public function findConCurrentYearByStatus(bool $enabled): ?ConCurrentYear
+    {
+        return $this->findOneBy(['enabled' => $enabled]);
+    }
+
     /**
      * Find all conCurrentYear years in an DESC order
      *

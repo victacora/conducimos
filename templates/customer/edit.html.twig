@@ -7,7 +7,6 @@
 {% block page_actions %}
 	{{ actions.customer(customer, 'edit') }}
 {% endblock %}
-
 {% block main %}
 	{% set formEditTemplate = app.request.xmlHttpRequest ? 'default/_form_modal.html.twig' : 'default/_form.html.twig' %}
 	{% set formOptions = {
@@ -31,13 +30,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 natural-person">
 					{{ form_row(form.birthDay) }}
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 natural-person">
 					{{ form_row(form.gender) }}
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 natural-person-color">
 					{{ form_row(form.color) }}
 				</div>
 			</div>
@@ -64,6 +63,33 @@
 				</div>
 			</div>
 			{{ form_row(form.visible) }}
+			<script type="text/javascript">
+				$(document).ready(function () {
+						checkTypeDocumentVal();
+						{% if form.idDocumentType is defined %}
+							$('#{{ form.idDocumentType.vars.id }}').on('change', checkTypeDocumentVal);
+						{% endif %}
+				});
+
+				var checkTypeDocumentVal = function(evt){
+					var $age=$('#{{ form.birthDay.vars.id }}');
+					var $gender=$('#{{ form.gender.vars.id }}');
+					if ($('#{{ form.idDocumentType.vars.id }}').val() === '2') {
+						$('.natural-person').hide();
+						$('.natural-person-color').removeClass('col-md-4').addClass('col-md-12');
+						$age.val('');
+						$gender.val('');
+						$age.prop('required',false);
+						$gender.prop('required',false);
+					} else {
+						$('.natural-person').show();
+						$age.prop('required',true);
+						$gender.prop('required',true);
+						$gender.val('').trigger('change');
+						$('.natural-person-color').removeClass('col-md-12').addClass('col-md-4');
+					}
+				};
+			</script>
 		{% endblock %}
 	{% endembed %}
 {% endblock %}
