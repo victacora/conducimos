@@ -33,7 +33,7 @@
         {% set actions = actions|merge({'back': path('current-years')}) %}
     {% endif %}
     
-    {% set event = trigger('actions.current_year', {'actions': actions, 'view': view, 'currentYear': currentYear}) %}
+    {% set event = trigger('actions.currentYear', {'actions': actions, 'view': view, 'currentYear': currentYear}) %}
     {% if view == 'index' %}
         {{ widgets.table_actions(event.payload.actions) }}
     {% else %}

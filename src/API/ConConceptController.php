@@ -5,7 +5,8 @@ declare(strict_types=1);
 
 namespace App\API;
 
-use App\Repository\ConCurrentYearRepository;
+
+use App\Repository\ConConceptRepository;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
@@ -14,13 +15,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @RouteResource("current_year")
+ * @RouteResource("concept")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
-class ConCurrentYearController extends BaseApiController
+class ConConceptController extends BaseApiController
 {
     /**
-     * @var ConCurrentYearRepository
+     * @var ConConceptRepository
      */
     protected $repository;
 
@@ -31,28 +32,28 @@ class ConCurrentYearController extends BaseApiController
 
     /**
      * @param ViewHandlerInterface $viewHandler
-     * @param ConCurrentYearRepository $repository
+     * @param ConConceptRepository $repository
      */
-    public function __construct(ViewHandlerInterface $viewHandler, ConCurrentYearRepository $repository)
+    public function __construct(ViewHandlerInterface $viewHandler, ConConceptRepository $repository)
     {
         $this->viewHandler = $viewHandler;
         $this->repository = $repository;
     }
 
     /**
-     * Delete a current year
+     * Delete a concept
      * @ApiSecurity(name="apiUser")
      * @ApiSecurity(name="apiToken")
      */
     public function deleteAction(int $id): Response
     {
-        $currentYear = $this->repository->find($id);
+        $concept = $this->repository->find($id);
 
-        if (null === $currentYear) {
+        if (null === $concept) {
             throw new NotFoundException();
         }
 
-        $this->repository->deleteConCurrentYear($currentYear);
+        $this->repository->deleteConConcept($concept);
 
         $view = new View(null, Response::HTTP_NO_CONTENT);
 

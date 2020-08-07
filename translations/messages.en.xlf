@@ -245,9 +245,21 @@
                 <source>label.description</source>
                 <target>Description</target>
             </trans-unit>
+            <trans-unit id="label.costumerName">
+                <source>label.costumerName</source>
+                <target>Fullname</target>
+            </trans-unit>
             <trans-unit id="label.name">
                 <source>label.name</source>
                 <target>Name</target>
+            </trans-unit>
+            <trans-unit id="label.fixed">
+                <source>label.fixed</source>
+                <target>Fixed</target>
+            </trans-unit>
+            <trans-unit id="label.expression">
+                <source>label.expression</source>
+                <target>Expression</target>
             </trans-unit>
             <trans-unit id="label.comment">
                 <source>label.comment</source>

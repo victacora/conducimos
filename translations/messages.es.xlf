@@ -217,9 +217,21 @@
                 <source>label.description</source>
                 <target>Descripción</target>
             </trans-unit>
+            <trans-unit id="label.costumerName">
+                <source>label.costumerName</source>
+                <target>Nombre completo ó razón social</target>
+            </trans-unit>
             <trans-unit id="label.name">
                 <source>label.name</source>
-                <target>Nombre completo ó razón social</target>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="label.fixed">
+                <source>label.fixed</source>
+                <target>Fijo</target>
+            </trans-unit>
+                <trans-unit id="label.expression">
+                <source>label.expression</source>
+                <target>Expresión</target>
             </trans-unit>
             <trans-unit id="label.comment">
                 <source>label.comment</source>

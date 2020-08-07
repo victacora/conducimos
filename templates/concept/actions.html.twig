@@ -1,0 +1,42 @@
+{% macro currentConcepts(view) %}
+    {% import "macros/widgets.html.twig" as widgets %}
+
+    {% set actions = {'search': {'class': 'search-toggle visible-xs-inline'}} %}
+
+    {% if is_granted('manage_concepts') %}
+        {% set actions = actions|merge({'create': {'url': path('concepts_create'), 'class': 'modal-ajax-form'}}) %}
+    {% endif %}
+
+    {% set event = trigger('actions.currentConcept', {'actions': actions, 'view': view}) %}
+    {{ widgets.page_actions(event.payload.actions) }}
+{% endmacro %}
+
+{% macro currentConcept(currentConcept, view) %}
+    {% import "macros/widgets.html.twig" as widgets %}
+
+    {% set actions = {} %}
+    {% if currentConcept.id is not empty %}
+        {% if is_granted('manage_concepts') %}
+            {% set class = '' %}
+            {% if view != 'edit' %}
+                {% set class = 'modal-ajax-form' %}
+            {% endif %}
+            {% set actions = actions|merge({'edit': {'url': path('concepts_edit', {'id': currentConcept.id}), 'class': class}}) %}
+        {% endif %}
+
+        {% if is_granted('delete_concepts') %}
+            {% set actions = actions|merge({'trash': {'url': path('delete_concept', {'id' : currentConcept.id}), 'class': 'api-link', 'attr': {'data-event': 'kimai.conConceptDelete kimai.conConceptUpdate', 'data-method': 'DELETE', 'data-question': 'confirm.delete', 'data-msg-error': 'action.delete.error', 'data-msg-success': 'action.delete.success'}}}) %}
+        {% endif %}
+    {% endif %}
+
+    {% if view != 'index' %}
+        {% set actions = actions|merge({'back': path('concepts')}) %}
+    {% endif %}
+    
+    {% set event = trigger('actions.currentConcept', {'actions': actions, 'view': view, 'currentConcept': currentConcept}) %}
+    {% if view == 'index' %}
+        {{ widgets.table_actions(event.payload.actions) }}
+    {% else %}
+        {{ widgets.entity_actions(event.payload.actions) }}
+    {% endif %}
+{% endmacro %}

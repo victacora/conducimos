@@ -56,7 +56,7 @@ class CustomerEditForm extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'label' => 'label.name',
+                'label' => 'label.costumerName',
                 'required' => true,
             ])
             ->add('idDocumentType', EntityType::class, [

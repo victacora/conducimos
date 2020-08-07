@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "concept/actions.html.twig" as actions %}
+{% import "macros/datatables.html.twig" as tables %}
+{% import "macros/toolbar.html.twig" as toolbar %}
+
+{% block page_title %}{{ 'concepts.title'|trans({}, 'concepts') }}{% endblock %}
+{% block page_search %}{{ toolbar.dropDownSearch(toolbarForm) }}{% endblock %}
+{% block page_actions %}{{ actions.currentConcepts('index') }}{% endblock %}
+
+{% block main %}
+
+    {% if currentConcepts|length == 0 %}
+        {{ widgets.callout('warning', 'error.no_entries_found') }}
+        <script type="text/javascript">
+            document.addEventListener('kimai.initialized', function() {
+                KimaiReloadPageWidget.create('kimai.conConceptUpdate');
+            });
+        </script>
+    {% else %}
+
+        {% set columns = {
+            'id': {'class': 'alwaysVisible multiCheckbox', 'orderBy': false, 'title': false, 'html_before': tables.datatable_multiupdate_all()},
+            'name': {'class': 'alwaysVisible'},
+            'description': {'class': 'alwaysVisible'},
+            'fixed': {'class': 'text-center w-min', 'orderBy': false},
+            'expression': {'class': 'alwaysVisible'},
+            'enabled': {'class': 'text-center w-min', 'orderBy': false},
+            'actions': {'class': 'actions alwaysVisible'},
+        } %}
+
+        {% set tableName = 'admin_concepts' %}
+        {% set manageAllowed = is_granted('manage_concepts') %}
+
+        {{ tables.datatable_header(tableName, columns, query, {'reload': 'kimai.conConceptUpdate'}) }}
+        {% for currentConcept in currentConcepts %}
+            {% set type = 'primary' %}
+      
+            <tr{% if manageAllowed %} class="modal-ajax-form open-edit" data-href="{{ path('concepts_edit', {'id': currentConcept.id}) }}"{% endif %}>
+                <td class="text-nowrap">{{ tables.datatable_multiupdate_row(currentConcept.id) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'name') }}">{{ currentConcept.name }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'description') }}">{{ currentConcept.description }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'fixed') }}">{{ widgets.label_visible(currentConcept.fixed) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'expression') }}">{{ currentConcept.expression }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'enabled') }}">{{ widgets.label_visible(currentConcept.enabled) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'actions') }}">
+                    {{ actions.currentConcept(currentConcept, 'index') }}
+                </td>
+            </tr>
+        {% endfor %}
+        {{ tables.data_table_footer(currentConcepts, 'concept_paginated', multiUpdateForm) }}
+
+    {% endif %}
+
+{% endblock %}

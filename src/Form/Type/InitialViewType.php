@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class InitialViewType extends AbstractType
 {
-    public const DEFAULT_VIEW = 'timesheet';
+    public const DEFAULT_VIEW = 'admin_customer';
 
     public const ALLOWED_VIEWS = [
         'dashboard' => 'menu.homepage',
@@ -31,7 +31,7 @@ class InitialViewType extends AbstractType
         'admin_user' => 'menu.admin_user',
         'admin_customer' => 'menu.admin_customer',
         'admin_project' => 'menu.admin_project',
-        'admin_activity' => 'menu.admin_activity',
+        'admin_activity' => 'menu.admin_activity'
     ];
 
     protected const ROUTE_PERMISSION = [

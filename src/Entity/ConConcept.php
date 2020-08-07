@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ConConcept
  *
  * @ORM\Table(name="con_concept", uniqueConstraints={@ORM\UniqueConstraint(name="name_UNIQUE", columns={"name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ConConceptRepository")
  */
 class ConConcept
 {
@@ -120,6 +120,4 @@ class ConConcept
 
         return $this;
     }
-
-
 }

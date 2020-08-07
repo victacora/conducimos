@@ -3,60 +3,56 @@
 
 namespace App\Repository;
 
-use App\Entity\ConCurrentYear;
-use App\Repository\Query\ConCurrentYearQuery;
+use App\Entity\ConConcept;
+use App\Repository\Query\ConConceptQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\ORMException;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
-class ConCurrentYearRepository extends EntityRepository
+class ConConceptRepository extends EntityRepository
 {
     /**
-     * @param ConCurrentYear $conCurrentYear
+     * @param ConConcept $ConConcept
      * @throws ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function saveConCurrentYear(ConCurrentYear $conCurrentYear)
+    public function saveConConcept(ConConcept $ConConcept)
     {
         $entityManager = $this->getEntityManager();
-        $entityManager->persist($conCurrentYear);
+        $entityManager->persist($ConConcept);
         $entityManager->flush();
     }
 
     /**
-     * @param ConCurrentYear $conCurrentYear
+     * @param ConConcept $ConConcept
      * @throws ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function deleteConCurrentYear(ConCurrentYear $conCurrentYear)
+    public function deleteConConcept(ConConcept $ConConcept)
     {
         $entityManager = $this->getEntityManager();
-        $entityManager->remove($conCurrentYear);
+        $entityManager->remove($ConConcept);
         $entityManager->flush();
     }
 
-    public function findConCurrentYearByYear(int $year): ?ConCurrentYear
+    public function findConConceptByName(string $name): ?ConConcept
     {
-        return $this->findOneBy(['year' => $year]);
+        return $this->findOneBy(['name' => $name]);
     }
 
-    public function findConCurrentYearByStatus(bool $enabled): ?ConCurrentYear
-    {
-        return $this->findOneBy(['enabled' => $enabled]);
-    }
 
     /**
      * Returns an array of arrays with each inner array having the structure:
-     * @param ConCurrentYearQuery $query
+     * @param ConConceptQuery $query
      * @return Pagerfanta
      */
-    public function getConCurrentYearCount(ConCurrentYearQuery $query)
+    public function getConConceptCount(ConConceptQuery $query)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
         $qb->select('t')
-            ->from(ConCurrentYear::class, 't');
+            ->from(ConConcept::class, 't');
         $orderBy = $query->getOrderBy();
         $orderBy = 't.' . $orderBy;
 
@@ -69,7 +65,10 @@ class ConCurrentYearRepository extends EntityRepository
             if ($searchTerm->hasSearchTerm()) {
                 $searchAnd->add(
                     $qb->expr()->orX(
-                        $qb->expr()->like('t.year', ':searchTerm')
+                        $qb->expr()->like('t.name', ':searchTerm')
+                    ),
+                    $qb->expr()->orX(
+                        $qb->expr()->like('t.description', ':searchTerm')
                     )
                 );
                 $qb->setParameter('searchTerm', '%' . $searchTerm->getSearchTerm() . '%');
@@ -91,17 +90,17 @@ class ConCurrentYearRepository extends EntityRepository
     }
 
     /**
-     * @param ConCurrentYear[] $years
+     * @param ConConcept[] $concepts
      * @throws \Exception
      */
-    public function multiDelete(iterable $years): void
+    public function multiDelete(iterable $concepts): void
     {
         $em = $this->getEntityManager();
         $em->beginTransaction();
 
         try {
-            foreach ($years as $conCurrentYear) {
-                $em->remove($conCurrentYear);
+            foreach ($concepts as $ConConcept) {
+                $em->remove($ConConcept);
             }
             $em->flush();
             $em->commit();
