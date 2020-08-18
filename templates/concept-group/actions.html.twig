@@ -1,0 +1,42 @@
+{% macro currentGroupConcepts(view) %}
+    {% import "macros/widgets.html.twig" as widgets %}
+
+    {% set actions = {'search': {'class': 'search-toggle visible-xs-inline'}} %}
+
+    {% if is_granted('manage_group_concepts') %}
+        {% set actions = actions|merge({'create': {'url': path('group_concepts_create'), 'class': 'modal-ajax-form'}}) %}
+    {% endif %}
+
+    {% set event = trigger('actions.currentGroupConcept', {'actions': actions, 'view': view}) %}
+    {{ widgets.page_actions(event.payload.actions) }}
+{% endmacro %}
+
+{% macro currentGroupConcept(currentGroupConcept, view) %}
+    {% import "macros/widgets.html.twig" as widgets %}
+
+    {% set actions = {} %}
+    {% if currentGroupConcept.id is not empty %}
+        {% if is_granted('manage_concepts') %}
+            {% set class = '' %}
+            {% if view != 'edit' %}
+                {% set class = 'modal-ajax-form' %}
+            {% endif %}
+            {% set actions = actions|merge({'edit': {'url': path('group_concepts_edit', {'id': currentGroupConcept.id}), 'class': class}}) %}
+        {% endif %}
+
+        {% if is_granted('delete_concepts') %}
+            {% set actions = actions|merge({'trash': {'url': path('delete_group_concept', {'id' : currentGroupConcept.id}), 'class': 'api-link', 'attr': {'data-event': 'kimai.conGroupConceptDelete kimai.conGroupConceptUpdate', 'data-method': 'DELETE', 'data-question': 'confirm.delete', 'data-msg-error': 'action.delete.error', 'data-msg-success': 'action.delete.success'}}}) %}
+        {% endif %}
+    {% endif %}
+
+    {% if view != 'index' %}
+        {% set actions = actions|merge({'back': path('group-concepts')}) %}
+    {% endif %}
+    
+    {% set event = trigger('actions.currentGroupConcept', {'actions': actions, 'view': view, 'currentGroupConcept': currentGroupConcept}) %}
+    {% if view == 'index' %}
+        {{ widgets.table_actions(event.payload.actions) }}
+    {% else %}
+        {{ widgets.entity_actions(event.payload.actions) }}
+    {% endif %}
+{% endmacro %}

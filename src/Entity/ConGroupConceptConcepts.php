@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ConGroupConceptConcepts
  *
  * @ORM\Table(name="con_group_concept_concepts", indexes={@ORM\Index(name="id_concept_group_idx", columns={"id_concept_group"}), @ORM\Index(name="id_year_idx", columns={"id_year"}), @ORM\Index(name="id_concept_idx", columns={"id_concept"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ConGroupConceptConceptsRepository")
  */
 class ConGroupConceptConcepts
 {
@@ -110,6 +110,4 @@ class ConGroupConceptConcepts
 
         return $this;
     }
-
-
 }

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\ConConcept;
+use App\Entity\ConGroupConcept;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class ConConceptEditForm extends AbstractType
+class ConGroupConceptEditForm extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -32,19 +32,6 @@ class ConConceptEditForm extends AbstractType
                     'autofocus' => 'autofocus'
                 ],
             ])
-            ->add('fixed', CheckboxType::class, [
-                'label' => 'label.fixed',
-                'attr' => [
-                    'autofocus' => 'autofocus'
-                ],
-            ])
-            ->add('expression', TextType::class, [
-                'label' => 'label.expression',
-                'attr' => [
-                    'required' => false,
-                    'autofocus' => 'autofocus'
-                ],
-            ])
             ->add('enabled', CheckboxType::class, [
                 'label' => 'label.enabled',
                 'attr' => [
@@ -60,13 +47,13 @@ class ConConceptEditForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ConConcept::class,
+            'data_class' => ConGroupConcept::class,
             'csrf_protection' => true,
             'required' => false,
             'csrf_field_name' => '_token',
-            'csrf_token_id' => 'con_concept_edit',
+            'csrf_token_id' => 'con_group_concept_edit',
             'attr' => [
-                'data-form-event' => 'kimai.conConceptUpdate'
+                'data-form-event' => 'kimai.conGroupConceptUpdate'
             ],
         ]);
     }

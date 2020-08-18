@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "concept-group/actions.html.twig" as actions %}
+{% import "macros/datatables.html.twig" as tables %}
+{% import "macros/toolbar.html.twig" as toolbar %}
+
+{% block page_title %}{{ 'conceptsgroup.title'|trans }}{% endblock %}
+{% block page_search %}{{ toolbar.dropDownSearch(toolbarForm) }}{% endblock %}
+{% block page_actions %}{{ actions.currentGroupConcepts('index') }}{% endblock %}
+
+{% block main %}
+
+    {% if currentGroupConcepts|length == 0 %}
+        {{ widgets.callout('warning', 'error.no_entries_found') }}
+        <script type="text/javascript">
+            document.addEventListener('kimai.initialized', function() {
+                KimaiReloadPageWidget.create('kimai.conGroupConceptUpdate');
+            });
+        </script>
+    {% else %}
+
+        {% set columns = {
+            'id': {'class': 'alwaysVisible multiCheckbox', 'orderBy': false, 'title': false, 'html_before': tables.datatable_multiupdate_all()},
+            'name': {'class': 'alwaysVisible'},
+            'description': {'class': 'alwaysVisible'},
+            'enabled': {'class': 'text-center w-min', 'orderBy': false},
+            'actions': {'class': 'actions alwaysVisible'},
+        } %}
+
+        {% set tableName = 'admin_group_concepts' %}
+        {% set manageAllowed = is_granted('manage_concepts') %}
+
+        {{ tables.datatable_header(tableName, columns, query, {'reload': 'kimai.conGroupConceptUpdate'}) }}
+        {% for currentGroupConcept in currentGroupConcepts %}
+            {% set type = 'primary' %}
+      
+            <tr{% if manageAllowed %} class="modal-ajax-form open-edit" data-href="{{ path('group_concepts_edit', {'id': currentGroupConcept.id}) }}"{% endif %}>
+                <td class="text-nowrap">{{ tables.datatable_multiupdate_row(currentGroupConcept.id) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'name') }}">{{ currentGroupConcept.name }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'description') }}">{{ currentGroupConcept.description }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'enabled') }}">{{ widgets.label_visible(currentGroupConcept.enabled) }}</td>
+                <td class="{{ tables.data_table_column_class(tableName, columns, 'actions') }}">
+                    {{ actions.currentGroupConcept(currentGroupConcept, 'index') }}
+                </td>
+            </tr>
+        {% endfor %}
+        {{ tables.data_table_footer(currentGroupConcepts, 'group_concept_paginated', multiUpdateForm) }}
+
+    {% endif %}
+
+{% endblock %}

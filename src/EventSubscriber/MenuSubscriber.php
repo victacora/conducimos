@@ -131,7 +131,7 @@ final class MenuSubscriber implements EventSubscriberInterface
 
         if ($auth->isGranted('view_group_concepts')) {
             $menu->addChild(
-                new MenuItemModel('view_group_concepts', 'menu.group_concepts', 'current-years', [], 'fa fa-book')
+                new MenuItemModel('view_group_concepts', 'menu.group_concepts', 'group-concepts', [], 'fa fa-book')
             );
         }
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="conceptsgroup.en.xlf">
+        <body>
+             <trans-unit id="conceptsgroup.title">
+                <source>conceptsgroup.title</source>
+                <target>Concepts group</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

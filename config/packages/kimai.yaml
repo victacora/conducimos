@@ -109,7 +109,7 @@ kimai:
             TEAMS: ['view_team','create_team','edit_team','delete_team']
             CURRENT_YEAR: ['view_current_year','manage_group_concepts','delete_group_concepts']
             CONCEPTS: ['view_concepts','manage_concepts','delete_concepts']
-            GROUP_CONCEPTS: ['view_group_concepts','manage_current_year','delete_current_year']
+            GROUP_CONCEPTS: ['view_group_concepts','manage_group_concepts','delete_group_concepts']
             # some single default definitions for roles 
             LOCKDOWN: ['lockdown_grace_timesheet','lockdown_override_timesheet']
             REPORTING: ['view_reporting']

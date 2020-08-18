@@ -1,0 +1,14 @@
+{% extends app.request.xmlHttpRequest ? 'form.html.twig' : 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "concept-group/actions.html.twig" as actions %}
+
+{% block page_title %}{{ 'conceptsgroup.title'|trans }}{% endblock %}
+{% block page_actions %}{{ actions.currentGroupConcept(currentGroupConcept, 'edit') }}{% endblock %}
+
+{% block main %}
+    {{ include(app.request.xmlHttpRequest ? 'default/_form_modal.html.twig' : 'default/_form.html.twig', {
+        'title': 'create'|trans,
+        'form': form,
+        'back': path('group-concepts')
+    }) }}
+{% endblock %}

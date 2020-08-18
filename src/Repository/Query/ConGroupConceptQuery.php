@@ -2,9 +2,9 @@
 
 namespace App\Repository\Query;
 
-class ConConceptQuery extends BaseQuery
+class ConGroupConceptQuery extends BaseQuery
 {
-    public const CON_CONCEPT_ORDER_ALLOWED = ['id', 'name'];
+    public const CON_GROUP_CONCEPT_ORDER_ALLOWED = ['id', 'name'];
 
     public function __construct()
     {
